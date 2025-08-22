@@ -24,3 +24,7 @@ jobs:
         run: npm run lint
       - name: Build Code
         run: "npm run build:ui"
+      - name: Trigger Deployment
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL}}
+        run: curl $deploy_url

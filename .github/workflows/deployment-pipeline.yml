@@ -7,6 +7,9 @@ on:
     branches: [main]
     types: [opened, synchronize]
 
+env:
+  CONDITION: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip') }}
+
 jobs:
   deployment_pipeline:
     runs-on: ubuntu-latest
@@ -24,12 +27,16 @@ jobs:
         run: npm run lint
       - name: Build Code
         run: "npm run build:ui"
+
       - name: Trigger Deployment
+        if: ${{ env.CONDITION == 'true' }}
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL}}
         run: curl $deploy_url
 
   version-tagging:
+    needs: deployment_pipeline
+    if: ${{ github.env.CONDITION == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5

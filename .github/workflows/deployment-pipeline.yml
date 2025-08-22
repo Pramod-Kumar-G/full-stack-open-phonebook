@@ -13,7 +13,10 @@ jobs:
         with:
           node-version: 24
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          cd ./client
+          npm install
       - name: Check Style
         run: npm run lint
       - name: Build Code

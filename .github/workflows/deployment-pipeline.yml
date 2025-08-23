@@ -29,10 +29,27 @@ jobs:
         run: "npm run build:ui"
 
       - name: Trigger Deployment
+        id: deploy
         if: ${{ env.CONDITION == 'true' }}
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: curl $deploy_url
+      - uses: sarisia/actions-status-discord@v1
+        if: ${{steps.deploy.outcome == 'success'}}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          title: "Deploy"
+          description: "A new version of Phonebook deployed"
+          username: Phonebook
+      - uses: sarisia/actions-status-discord@v1
+        if: ${{failure()}}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          title: "Build"
+          description: "Build Failed for Phonebook"
+          username: Phonebook
 
   version-tagging:
     needs: deployment_pipeline

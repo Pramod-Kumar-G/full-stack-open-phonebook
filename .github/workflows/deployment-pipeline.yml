@@ -34,6 +34,7 @@ jobs:
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: curl $deploy_url
+
       - uses: sarisia/actions-status-discord@v1
         if: ${{steps.deploy.outcome == 'success'}}
         with:
@@ -43,7 +44,7 @@ jobs:
           description: "A new version of Phonebook deployed"
           username: Phonebook
       - uses: sarisia/actions-status-discord@v1
-        if: ${{failure()}}
+        if: ${{ failure() }}
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
@@ -53,7 +54,7 @@ jobs:
 
   version-tagging:
     needs: [deployment_pipeline]
-    # if: ${{ github.env.CONDITION == 'true' }}
+    if: ${{ github.env.CONDITION == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -61,5 +62,5 @@ jobs:
         uses: anothrNick/github-tag-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: minor
+          DEFAULT_BUMP: patch
           TAG_PREFIX: v

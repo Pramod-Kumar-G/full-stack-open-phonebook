@@ -1,6 +1,7 @@
 # Phonebook (Part 11)
 
-This folder contains the source code for the **Phonebook** app developed as part of Full Stack Open's Part 11 exercises.
+This repository contains the solutions for exercises 11.20 and 11.21 of Fullstack Open part 11.
+The solutions for exercise 11.1-11.19 can be found [here](https://github.com/Pramod-Kumar-G/full-stack-open-pokedex).
 
 ---
 

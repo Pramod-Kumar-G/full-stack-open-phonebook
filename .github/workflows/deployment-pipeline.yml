@@ -54,7 +54,7 @@ jobs:
 
   version-tagging:
     needs: [deployment_pipeline]
-    if: ${{ github.env.CONDITION == 'true' }}
+    if: ${{ env.CONDITION == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -52,11 +52,11 @@ jobs:
           username: Phonebook
 
   version-tagging:
-    needs: deployment_pipeline
+    needs: [deployment_pipeline]
     if: ${{ github.env.CONDITION == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@v1
         env:
